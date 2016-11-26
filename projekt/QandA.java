@@ -1,5 +1,7 @@
 package projekt;
 
+import java.util.Arrays;
+
 public class QandA {
 	
 	String[] questions;
@@ -14,11 +16,11 @@ public class QandA {
 
 	
 	public String questionsToString() {
-		return "" + questions;	
+		return Arrays.toString(questions);	
 	}
 	
 	public String answersToString() {
-		return "" + answers;
+		return Arrays.toString(answers);
 	}
 	
 	public String randomQuestion() {
