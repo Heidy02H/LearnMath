@@ -4,6 +4,7 @@ package projekt;
 import java.io.FileReader;
 import java.util.Map;
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -24,6 +25,11 @@ public class Valemid extends Application {
 	Stage window;
 	Scene scene1, scene2;
 	Button button1, button2;
+	
+	// Creating my QandA.
+	ArrayList<String> questions = new ArrayList<String>();
+	ArrayList<String> answers = new ArrayList<String>();
+	QandA choice = new QandA(questions, answers);
 
 	public static void main(String[] args) throws Exception {
 		launch(args);
@@ -49,22 +55,28 @@ public class Valemid extends Application {
 		button1.setOnAction(e -> {
 			try {
 				handleOptions(box1, box2, box3, box4);
+				askQuestion(choice);
+				primaryStage.setScene(scene2);
+					
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		});
 		
-		button1.setOnAction(e -> primaryStage.setScene(scene2));
 		
 		// Button 2
 		
 		button2 = new Button();
 		button2.setText("Valmis");
 		
+		button2.setOnAction(e -> {
+			
+		});
+		
 		// Question and answer
 		
-		Label question = new Label("Küsimus");
+		Label question = new Label("");
 		TextField answer = new TextField();
 		
 		
@@ -84,53 +96,55 @@ public class Valemid extends Application {
 
 		scene1 = new Scene(layout1, 500, 500);
 		
+		primaryStage.setScene(scene1);
+		primaryStage.show();
+		
 		
 		// Second scene
 		
 		scene2 = new Scene(layout2, 400, 400);
 		
-		// Validate answer
-		
-		
-		
-		
-		
-		primaryStage.setScene(scene1);
-		primaryStage.show();
-		
-		
 
 	}
 
 	// Handle Checkboxes
-	private Object handleOptions(CheckBox box1, CheckBox box2, CheckBox box3, CheckBox box4) throws Exception {
-		HashMap<String, String> choice = new HashMap<String, String>();
+	private QandA handleOptions(CheckBox box1, CheckBox box2, CheckBox box3, CheckBox box4) throws Exception {
+		
+		
+//		ArrayList<String> questions = new ArrayList<String>();
+//		ArrayList<String> answers = new ArrayList<String>();
+//		
+//		QandA choice = new QandA(questions, answers);
+		
 		if (box1.isSelected()) {
-			String file = "korrutamine1.csv";
+			String file = "/Users/heidikoppel/Documents/GitHub/Project/korrutamine1.csv";
 			readInChoice(choice, file);
+			System.out.println("a " + choice.questions.size());
 
 		}
 		if (box2.isSelected()) {
-			String file = "korrutamine2.csv";
+			String file = "/Users/heidikoppel/Documents/GitHub/Project/korrutamine2.csv";
 			readInChoice(choice, file);
+			System.out.println("b " +choice.questions.size());
 
 		}
 		if (box3.isSelected()) {
-			String file = "korrutamine3.csv";
+			String file = "/Users/heidikoppel/Documents/GitHub/Project/korrutamine3.csv";
 			readInChoice(choice, file);
 
 		}
 		if (box4.isSelected()) {
-			String file = "korrutamine4.csv";
+			String file = "/Users/heidikoppel/Documents/GitHub/Project/korrutamine4.csv";
 			readInChoice(choice, file);
 
 		}
-
-		return null;
+		
+		
+		return choice;
 	}
 
-	// Put the formulas that the user chooses into a HashMap
-	public static void readInChoice(HashMap<String, String> choice, String file) throws Exception {
+	// Put the formulas that the user chooses into a QandA object.
+	public static void readInChoice(QandA choice, String file) throws Exception {
 
 		CSVReader reader = new CSVReader(new FileReader(file));
 
@@ -139,23 +153,32 @@ public class Valemid extends Application {
 		while ((nextLine = reader.readNext()) != null) {
 			// nextLine[] is an array of values from the line
 			String[] a = nextLine[0].split(";");
-			choice.put(a[0], a[1]);
+			choice.add(a[0], a[1]);
 		}
-
-		Set set = choice.entrySet();
-		Iterator iterator = set.iterator();
-		while (iterator.hasNext()) {
-			Map.Entry mentry = (Map.Entry) iterator.next();
-			System.out.print("key is: " + mentry.getKey() + " & Value is: ");
-			System.out.println(mentry.getValue());
-		}
+		
+		System.out.println(choice.questions);
 
 		reader.close();
+		
+	
 
 	}
 	
-	public String askQuestion() {
-		return "";
+	// Choose a question to ask
+	
+	public String askQuestion(QandA list) {
+		
+		System.out.println("Size of questions when askQuestions" + list.questions.size());
+		
+		int rand = list.randomNumber();
+		
+		System.out.println("Random number gen" + rand);
+		
+		
+		
+		return list.get(rand) ;
 	}
+	
+	
 
 }

@@ -1,32 +1,40 @@
 package projekt;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.lang.Math;
+
 
 public class QandA {
 	
-	String[] questions;
-	String[] answers;
+	ArrayList<String> questions;
+	ArrayList<String> answers;
 	
 	
 	//Constructor
-	public QandA(String[] q, String[] a) {
+	public QandA(ArrayList<String> q, ArrayList<String> a) {
 		questions = q;
 		answers = a;
 	}
+	
+	public void add(String question, String answer) {
+		questions.add(question);
+		answers.add(answer);
+		
+	}
+	
+	public String get(int n) {
+		
+		return questions.get(n) + " " + answers.get(n); 
+		
+	}
+	
+	//Random index of the questions ArrayList
+	
+	public int randomNumber() {
+		System.out.println("Size of quest " + questions.size());
+		return (int) (Math.random() * (questions.size()) );
+		
+	}
+	
 
-	
-	public String questionsToString() {
-		return Arrays.toString(questions);	
-	}
-	
-	public String answersToString() {
-		return Arrays.toString(answers);
-	}
-	
-	public String randomQuestion() {
-		int rand = (int) (Math.random() * (questions.length + 1) );
-		
-		return questions[rand];
-		
-	}
 }
