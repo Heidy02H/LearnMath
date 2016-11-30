@@ -22,9 +22,9 @@ public class QandA {
 		
 	}
 	
-	public String get(int n) {
+	public String getQuestion(int n) {
 		
-		return questions.get(n) + " " + answers.get(n); 
+		return questions.get(n); 
 		
 	}
 	

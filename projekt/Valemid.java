@@ -56,6 +56,7 @@ public class Valemid extends Application {
 			try {
 				handleOptions(box1, box2, box3, box4);
 				askQuestion(choice);
+				createNewScene();
 				primaryStage.setScene(scene2);
 					
 			} catch (Exception e1) {
@@ -70,9 +71,7 @@ public class Valemid extends Application {
 		button2 = new Button();
 		button2.setText("Valmis");
 		
-		button2.setOnAction(e -> {
-			
-		});
+		
 		
 		// Question and answer
 		
@@ -88,10 +87,10 @@ public class Valemid extends Application {
 		
 		// Layout2
 		
-		VBox layout2 = new VBox(10);
-		layout2.setPadding(new Insets(10));
-		layout2.getChildren().addAll(question, answer, button2);
-		
+//		VBox layout2 = new VBox(10);
+//		layout2.setPadding(new Insets(10));
+//		layout2.getChildren().addAll(question, answer, button2);
+//		
 		// First scene
 
 		scene1 = new Scene(layout1, 500, 500);
@@ -102,19 +101,36 @@ public class Valemid extends Application {
 		
 		// Second scene
 		
-		scene2 = new Scene(layout2, 400, 400);
+//		scene2 = new Scene(layout2, 400, 400);
 		
 
+	}
+	
+	//Creating new scene . 
+	// Idea from http://stackoverflow.com/questions/32940574/how-do-i-transfer-data-from-one-scene-to-another-in-javafx
+	
+	public void createNewScene() {
+		Label question = new Label();
+	    question.setText(askQuestion(choice));
+	    
+	    TextField answer = new TextField();
+	    
+	    // button for submitting answer
+	    button2 = new Button();
+	    button2.setText("Vasta");
+	    
+
+	 // Layout2
+		
+	 	VBox layout2 = new VBox(10);
+	 	layout2.setPadding(new Insets(10));
+	 	layout2.getChildren().addAll(question, answer, button2);
+	 	
+	 	scene2 = new Scene(layout2, 400, 400);
 	}
 
 	// Handle Checkboxes
 	private QandA handleOptions(CheckBox box1, CheckBox box2, CheckBox box3, CheckBox box4) throws Exception {
-		
-		
-//		ArrayList<String> questions = new ArrayList<String>();
-//		ArrayList<String> answers = new ArrayList<String>();
-//		
-//		QandA choice = new QandA(questions, answers);
 		
 		if (box1.isSelected()) {
 			String file = "/Users/heidikoppel/Documents/GitHub/Project/korrutamine1.csv";
@@ -176,7 +192,7 @@ public class Valemid extends Application {
 		
 		
 		
-		return list.get(rand) ;
+		return list.getQuestion(rand) ;
 	}
 	
 	
