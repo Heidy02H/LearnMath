@@ -146,11 +146,16 @@ public class Valemid extends Application {
 	    if (status == true) {
 	    	hinnang.setText("Õige vastus");
 	    	rightCount++;
+	    	streak++;
+	    	if (streak%3 == 0) {
+	    		Alert.display("Tubli", "Midagi toredat");
+	    	}
 	    	counter.setText("Õigete vastuste arv: " + rightCount);
 	    	
 	    }
 	    else {
 	    	hinnang.setText("Vale vastus");
+	    	streak = 0;
 	    }
 	    
 	    // button for submitting answer
