@@ -9,6 +9,10 @@ public class QandA {
 	ArrayList<String> questions;
 	ArrayList<String> answers;
 	
+	String theQuestion;
+	String theAnswer;
+
+	
 	
 	//Constructor
 	public QandA(ArrayList<String> q, ArrayList<String> a) {
@@ -23,6 +27,7 @@ public class QandA {
 	}
 	
 	public String getQuestion(int n) {
+		
 		
 		return questions.get(n); 
 		

@@ -1,14 +1,13 @@
 package projekt;
 
+// Used the following series tutorials on Youtube to learn about JavaFX https://www.youtube.com/watch?v=FLkOX4Eez6o&t=10s
+
 
 import java.io.FileReader;
-import java.util.Map;
-import java.util.Set;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 
 import com.opencsv.CSVReader;
+import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -18,15 +17,21 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Valemid extends Application {
 
 	Stage window;
-	Scene scene1, scene2;
-	Button button1, button2;
+	Scene scene1, scene2, scene3;
+	Button button1, button2, button3, button4;
+	TextField answer;
+	boolean status;
+	int rightCount = 0;
+	int streak = 0;
 	
-	// Creating my QandA.
+	
+	// Creating my QandA for selection.
 	ArrayList<String> questions = new ArrayList<String>();
 	ArrayList<String> answers = new ArrayList<String>();
 	QandA choice = new QandA(questions, answers);
@@ -38,7 +43,8 @@ public class Valemid extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		primaryStage.setTitle("Õpime valemeid");
+		window = primaryStage;
+		window.setTitle("Õpime valemeid");
 		Label instruction = new Label("Palun vali milliseid valemeid soovid õppida.");
 
 		// Create CheckBoxes
@@ -46,6 +52,7 @@ public class Valemid extends Application {
 		CheckBox box2 = new CheckBox("2ga korrutamine");
 		CheckBox box3 = new CheckBox("3ga korrutamine");
 		CheckBox box4 = new CheckBox("4ga korrutamine");
+	
 
 		// Button 1
 
@@ -55,28 +62,16 @@ public class Valemid extends Application {
 		button1.setOnAction(e -> {
 			try {
 				handleOptions(box1, box2, box3, box4);
-				askQuestion(choice);
+				chooseQandA(choice);
 				createNewScene();
 				primaryStage.setScene(scene2);
 					
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+				System.out.println("Palun vali vähemalt üks valemite pakett");
 			}
 		});
-		
-		
-		// Button 2
-		
-		button2 = new Button();
-		button2.setText("Valmis");
-		
-		
-		
-		// Question and answer
-		
-		Label question = new Label("");
-		TextField answer = new TextField();
 		
 		
 		// Layout1
@@ -84,25 +79,13 @@ public class Valemid extends Application {
 		VBox layout1 = new VBox(10);
 		layout1.setPadding(new Insets(10));
 		layout1.getChildren().addAll(instruction, box1, box2, box3, box4, button1);
-		
-		// Layout2
-		
-//		VBox layout2 = new VBox(10);
-//		layout2.setPadding(new Insets(10));
-//		layout2.getChildren().addAll(question, answer, button2);
-//		
+			
 		// First scene
 
-		scene1 = new Scene(layout1, 500, 500);
+		scene1 = new Scene(layout1, 500, 300);
 		
 		primaryStage.setScene(scene1);
 		primaryStage.show();
-		
-		
-		// Second scene
-		
-//		scene2 = new Scene(layout2, 400, 400);
-		
 
 	}
 	
@@ -111,24 +94,96 @@ public class Valemid extends Application {
 	
 	public void createNewScene() {
 		Label question = new Label();
-	    question.setText(askQuestion(choice));
+		
+	    question.setText(choice.theQuestion + " " + choice.theAnswer);
 	    
 	    TextField answer = new TextField();
+	    
 	    
 	    // button for submitting answer
 	    button2 = new Button();
 	    button2.setText("Vasta");
 	    
+	    button2.setOnAction(e -> {
+	    	String userAnswer = answer.getText(); 	    	
+	    	status = validateAnswer(userAnswer, choice.theAnswer);
+	    	System.out.println(status);
+	    	createNewScene3(status);
+	    	window.setScene(scene3);
+	    	
+	    	
+	    });
+	    
+	    // button for Exiting the program
+	    
+	    button3 = new Button();
+	    button3.setText("Lõpeta");
+	    
+	    button3.setOnAction(e -> {
+	    	window.close();
+	    });
 
 	 // Layout2
 		
 	 	VBox layout2 = new VBox(10);
 	 	layout2.setPadding(new Insets(10));
-	 	layout2.getChildren().addAll(question, answer, button2);
+	 	layout2.getChildren().addAll(question, answer, button2, button3);
 	 	
-	 	scene2 = new Scene(layout2, 400, 400);
+	 	scene2 = new Scene(layout2, 500, 300);
+	 	
+	 	
 	}
+	
+	public void createNewScene3(boolean status) {
+		
+		Label question = new Label();
+		
+	    question.setText(choice.theQuestion + " " + choice.theAnswer);
+	    
+	    Label hinnang =new Label();
+	    Text counter = new Text();
+	    
+	    if (status == true) {
+	    	hinnang.setText("Õige vastus");
+	    	rightCount++;
+	    	counter.setText("Õigete vastuste arv: " + rightCount);
+	    	
+	    }
+	    else {
+	    	hinnang.setText("Vale vastus");
+	    }
+	    
+	    // button for submitting answer
+	    button4 = new Button();
+	    button4.setText("Jätka");
+	    
+	    button4.setOnAction(e -> {
+	    	chooseQandA(choice);
+	    	createNewScene();
+	    	window.setScene(scene2);
+	    		
+	    });
+	    
+	    // button for Exiting the program
+	    
+	    button3 = new Button();
+	    button3.setText("Lõpeta");
+	    
+	    button3.setOnAction(e -> {
+	    	window.close();
+	    });
 
+	 // Layout2
+		
+	 	VBox layout3 = new VBox(10);
+	 	layout3.setPadding(new Insets(10));
+	 	layout3.getChildren().addAll(question, hinnang, counter, button4, button3);
+	 	
+	 	scene3 = new Scene(layout3, 500, 300);
+	 	
+		
+	}
+	
 	// Handle Checkboxes
 	private QandA handleOptions(CheckBox box1, CheckBox box2, CheckBox box3, CheckBox box4) throws Exception {
 		
@@ -182,7 +237,7 @@ public class Valemid extends Application {
 	
 	// Choose a question to ask
 	
-	public String askQuestion(QandA list) {
+	public QandA chooseQandA(QandA list) {
 		
 		System.out.println("Size of questions when askQuestions" + list.questions.size());
 		
@@ -190,11 +245,24 @@ public class Valemid extends Application {
 		
 		System.out.println("Random number gen" + rand);
 		
+		list.theAnswer = list.answers.get(rand);
+		list.theQuestion = list.questions.get(rand);
+		
+		return list;
+	}
+	
+	public boolean validateAnswer(String answer ,String value) {
+		
+		System.out.println("algne " + answer);
+		System.out.println("Vastus: " + answer.replaceAll("\\s+","").toLowerCase());
+		System.out.println("Tegelik vastus " + value );
+
+		return answer.replaceAll("\\s+","").toLowerCase().equals(value);
 		
 		
-		return list.getQuestion(rand) ;
 	}
 	
 	
+		
 
 }
