@@ -18,7 +18,10 @@ import javafx.stage.Stage;
  *
  */
 
-public class ResultBox {
+public class GameOverAlert {
+	/**
+	 * This method creates the alert and displays it to the user
+	 */
 	public static void display() {
 
 		Stage window = new Stage();

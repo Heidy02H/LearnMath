@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 
 public class Alert {
 	/**
-	 * Method for displaying the alert.
+	 * Method for creating and displaying the alert.
 	 * 
 	 * @param title
 	 *            Title of the alert box

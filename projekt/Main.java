@@ -37,30 +37,45 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+	// Declaring variables that can also be used in other classes.
 	static Stage window;
 	static Scene scene1, scene2, scene3;
 	static Button button1, button2, button3, button4;
 	static TextField answer;
-	static int status;
+	static boolean status;
 	static int rightCount = 0;
 	static int streak = 0;
 
-	// Creating QandA instance to store the selected formulas answers and odds.
+	// Creates QandA instance to store the selected formulas answers and odds.
 	static ArrayList<String> questions = new ArrayList<String>();
 	static ArrayList<String> answers = new ArrayList<String>();
 	static ArrayList<Integer> odds = new ArrayList<Integer>();
 	static QandA choice = new QandA(questions, answers, odds);
-	
-	// Create CheckBoxes
+
+	// Creates CheckBoxes
 	static CheckBox box1 = new CheckBox("Tuletised");
 	static CheckBox box2 = new CheckBox("Trigonomeetria põhivalemid");
 	static CheckBox box3 = new CheckBox("Põhiintegraalid");
 	static CheckBox box4 = new CheckBox("Testiks");
-	
+
+	/**
+	 * Starts the program
+	 * 
+	 * @param args
+	 * @throws Exception
+	 */
 	public static void main(String[] args) throws Exception {
 		launch(args);
 	}
 
+	/**
+	 * Creates the stage and the first scene
+	 * 
+	 * @param primaryStage
+	 *            The stage
+	 * @throws Exception
+	 *             if the user doesn't choose formulas to learn
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		window = primaryStage;
@@ -71,14 +86,8 @@ public class Main extends Application {
 		// Instruction in scene 1
 		Label instruction = new Label("Palun vali milliseid valemeid soovid õppida.");
 
-//		// Create CheckBoxes
-//		CheckBox box1 = new CheckBox("Tuletised");
-//		CheckBox box2 = new CheckBox("Trigonomeetria põhivalemid");
-//		CheckBox box3 = new CheckBox("Põhiintegraalid");
-//		CheckBox box4 = new CheckBox("Testiks");
-
-		// Creates button for choosing the formulas which the user wants to
-		// learn and loads them in.
+		// Creates button for selecting the formulas which the user wants to
+		// learn and loads them into the game.
 		button1 = new Button();
 		button1.setText("Alusta");
 		button1.setOnAction(e -> Actions.clickBeginButton());
@@ -98,9 +107,11 @@ public class Main extends Application {
 
 	}
 
-	// Method for creating scene number 2 with info from the first scene.
-	// Idea to create the new scene in a method:
-	// http://stackoverflow.com/questions/32940574/how-do-i-transfer-data-from-one-scene-to-another-in-javafx
+	/**
+	 * Method for creating scene number 2 with info from the first scene. Idea
+	 * to create the new scene in a method:
+	 * http://stackoverflow.com/questions/32940574/how-do-i-transfer-data-from-one-scene-to-another-in-javafx
+	 */
 	public static void createNewScene() {
 
 		// Creates the label that displays the question
@@ -111,7 +122,7 @@ public class Main extends Application {
 		// Creates the text field for the user's answer
 		answer = new TextField();
 
-		// Creates button for submitting answer
+		// Creates button for submitting and validating the answer
 		button2 = new Button();
 		button2.setText("Vasta");
 		button2.setOnAction(e -> Actions.clickValidateButton());
@@ -127,12 +138,18 @@ public class Main extends Application {
 		layout2.setAlignment(Pos.CENTER);
 		layout2.getChildren().addAll(question, answer, button2, button3);
 
+		// Creates second scene
 		scene2 = new Scene(layout2, 450, 200);
 		scene2.getStylesheets().add("file:///Users/heidikoppel/Documents/GitHub/Project/projekt/Form.css");
 	}
 
-	// Method that creates scene number 3 with info from the second scene
-	public static void createNewScene2(int status) {
+	/**
+	 * Method that creates scene number 3 with info from the second scene
+	 * 
+	 * @param status
+	 *            Status of the users answer. Either true or false
+	 */
+	public static void createNewScene2(boolean status) {
 
 		// Creates the label that displays the question and correct answer.
 		Label question = new Label();
@@ -142,7 +159,6 @@ public class Main extends Application {
 		// Creates the label that displays the result
 		Label evaluation = new Label();
 		evaluation.getStyleClass().add("label-evaluation");
-		
 
 		// Creates the text which displays if the answer was correct
 		Text counter = new Text();
@@ -150,14 +166,53 @@ public class Main extends Application {
 		// Displays the text that tells the user they have mastered a formula if
 		// applicable
 		Text removeQ = new Text();
-		
+
+		// Creates the layout for this scene
 		VBox layout3 = new VBox(10);
 		layout3.setPadding(new Insets(10));
 		layout3.setAlignment(Pos.CENTER);
 
-		// Set 
+		// Updates all the values according to the user's answer
+		update(status, evaluation, removeQ, layout3, counter);
+
+		// Creates button for continuing the game.
+		button4 = new Button();
+		button4.setText("Jätka");
+		button4.setOnAction(e -> Actions.clickContinueButton());
+
+		// Creates button for Exiting the game.
+		button3 = new Button();
+		button3.setText("Lõpeta");
+		button3.setOnAction(e -> Actions.clickCloseButton());
+
+		// Adding remaining elements to layout
+		layout3.getChildren().addAll(question, evaluation, counter, button4, button3);
+
+		scene3 = new Scene(layout3, 450, 200);
+		scene3.getStylesheets().add("file:///Users/heidikoppel/Documents/GitHub/Project/projekt/Form.css");
+	}
+
+	/**
+	 * Sets the text which tells the user if they were correct or not. Also
+	 * updates the overall right answer count and streak count. Updates the odds
+	 * of the question. Prompts the streak alert if applicable Prompts the game
+	 * over alert if applicable.
+	 * 
+	 * @param status
+	 *            Status of the answer.
+	 * @param evaluation
+	 *            Label for displaying the status.
+	 * @param removeQ
+	 *            Text for displaying the info about removing a formula from
+	 *            circulation.
+	 * @param layout3
+	 *            Layout where we can add removeQ if applicable.
+	 * @param counter
+	 *            Text for displaying the number of correct answers given.
+	 */
+	public static void update(boolean status, Label evaluation, Text removeQ, VBox layout3, Text counter) {
 		int sum = 0;
-		if (status == 1) {
+		if (status == true) {
 			evaluation.setText("Õige vastus");
 			rightCount++;
 			streak++;
@@ -168,16 +223,16 @@ public class Main extends Application {
 				layout3.getChildren().add(removeQ);
 			}
 
+			if (streak % 10 == 0) {
+				Alert.display("Auhind!", "Tubli! Sa oled vastanud 10 korda järjest õigesti.", true);
+			}
+
 			for (int i : choice.odds) {
 				sum += i;
 			}
 
-			if (streak % 10 == 0) {
-				Alert.display("Auhind!", "Tubli! Sa oled vastanud 10 korda järjest õigesti.", true);
-			}
-			
 			if (sum == 0) {
-				ResultBox.display();
+				GameOverAlert.display();
 			}
 			counter.setText("Kogu õigete vastuste arv: " + rightCount);
 
@@ -187,42 +242,46 @@ public class Main extends Application {
 			choice.odds.set(choice.theIndex, choice.odds.get(choice.theIndex) + 1);
 		}
 
-		// Creates button for submitting answer and continuing the game.
-		button4 = new Button();
-		button4.setText("Jätka");
-		button4.setOnAction(e -> Actions.clickContinueButton());
-
-		// Creates button for Exiting the program
-		button3 = new Button();
-		button3.setText("Lõpeta");
-		button3.setOnAction(e -> Actions.clickCloseButton());
-
-		//Adding remaining elements to layout
-		layout3.getChildren().addAll(question, evaluation, counter, button4, button3);
-
-		scene3 = new Scene(layout3, 450, 200);
-		scene3.getStylesheets().add("file:///Users/heidikoppel/Documents/GitHub/Project/projekt/Form.css");
 	}
 
-	// Method for handling the Checkboxes
+	/**
+	 * Method for handling the Check boxes
+	 * 
+	 * @param box1
+	 *            First check box
+	 * @param box2
+	 *            Second check box
+	 * @param box3
+	 *            Third check box
+	 * @param box4
+	 *            Fourth check box
+	 * @return QandA
+	 * @throws Exception
+	 *             If no boxes are chosen.
+	 */
 	public static QandA handleOptions(CheckBox box1, CheckBox box2, CheckBox box3, CheckBox box4) throws Exception {
-		
-		CheckBox[] c = {box1, box2, box3, box4};
+
+		CheckBox[] c = { box1, box2, box3, box4 };
 		int counter = 1;
-		
-		for(CheckBox box: c) {
-			if(box.isSelected() == true) {
-				String file = "/Users/heidikoppel/Documents/GitHub/Project/valemid"+ counter + ".csv";
+
+		for (CheckBox box : c) {
+			if (box.isSelected() == true) {
+				String file = "/Users/heidikoppel/Documents/GitHub/Project/valemid" + counter + ".csv";
 				Loader.readFromCsv(choice, file);
 			}
 			counter += 1;
-			
+
 		}
 		return choice;
 	}
 
-
-	// Assigns the index, question and correct answer for one round of the game
+	/**
+	 * Assigns the index, question and correct answer for one round of the game
+	 * 
+	 * @param list
+	 *            a QandA object.
+	 * @return the updated QandA object.
+	 */
 	public static QandA chooseQandA(QandA list) {
 		list.theIndex = choice.randomIndex();
 		list.theAnswer = list.answers.get(list.theIndex);
@@ -230,14 +289,17 @@ public class Main extends Application {
 		return list;
 	}
 
-	// Validates the users answer by first putting the answer in lower case and
-	// removing all whitespace
-	// and then comparing to the correct answer.
-	public static int validateAnswer(String answer, String value) {
+	/**
+	 * Validates the users answer by first putting the answer in lower case and
+	 *removing all whitespace
+	 *and then comparing to the correct answer.
+	 * @param answer The users answer.
+	 * @param value The correct answer.
+	 * @return boolean true or false.
+	 */
+	public static boolean validateAnswer(String answer, String value) {
 		String trimAnswer = answer.replaceAll("\\s+", "").toLowerCase();
-		if (trimAnswer.equals(value) == true)
-			return 1;
-		else
-			return -1;
+		return trimAnswer.equals(value);
+
 	}
 }
