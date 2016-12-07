@@ -32,8 +32,9 @@ public class ResultBox {
 		window.setTitle("Oled jõudnud mängu lõppu");
 
 		// Creates a label to display a congratulatory message.
-		Label label = new Label();
-		label.setText("Palju õnne! Oskad nüüd kõiki valemeid");
+		Label infoLabel = new Label();
+		infoLabel.getStyleClass().add("label-evaluation");
+		infoLabel.setText("Palju õnne! Oskad nüüd kõiki valemeid");
 
 		// Displays an image in the alert.
 		Image chuck = new Image("Cats/Chuck.jpg");
@@ -44,17 +45,18 @@ public class ResultBox {
 		Button button = new Button("Head aega");
 		button.setOnAction(e -> {
 			window.close();
-			Valemid.window.close();
+			Main.window.close();
 		});
 
 		// Sets the layout of the alert
 		VBox layout = new VBox(10);
 		layout.setPadding(new Insets(10));
-		layout.getChildren().addAll(label, iv, button);
+		layout.getChildren().addAll(infoLabel, iv, button);
 		layout.setAlignment(Pos.CENTER);
 
 		// Starts the alert scene
 		Scene scene = new Scene(layout);
+		scene.getStylesheets().add("file:///Users/heidikoppel/Documents/GitHub/Project/projekt/Form.css");
 		window.setScene(scene);
 		window.showAndWait();
 

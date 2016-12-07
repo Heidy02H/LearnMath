@@ -12,8 +12,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * This class creates the funny/motivational alert if the user is on a winning
- * streak of 10 correct answers in a row.
+ * This class creates alerts for the user.
  * 
  * I learned about making alert boxes from this tutorial on Youtube
  * https://www.youtube.com/watch?v=SpL3EToqaXA&list=PL6gx4Cwl9DGBzfXLWLSYVy8EbTdpGbUIG&index=5
@@ -30,9 +29,11 @@ public class Alert {
 	 *            Title of the alert box
 	 * @param message
 	 *            Message to the user
+	 * @param boolean
+	 *            If true then a random funny image is loaded into the alert box
 	 */
 
-	public static void display(String title, String message) {
+	public static void display(String title, String message, boolean image) {
 
 		Stage window = new Stage();
 		window.setMinWidth(250);
@@ -45,17 +46,8 @@ public class Alert {
 		window.setTitle(title);
 
 		// Creates and sets the congratulatory message
-		Label label = new Label();
-		label.setText(message);
-
-		// Chooses a random cat picture as the prize and displays it.
-		String[] catList = { "Cats/grumpymath.jpg", "Cats/cat1.jpg", "Cats/monocat.jpg", "Cats/rollcat.jpg" };
-
-		int index = (int) (Math.random() * catList.length);
-
-		Image cat = new Image(catList[index]);
-		ImageView iv1 = new ImageView();
-		iv1.setImage(cat);
+		Label infoLabel = new Label();
+		infoLabel.setText(message);
 
 		// Creates a button for closing the alert and continuing the game
 		Button button = new Button("Jätka");
@@ -66,11 +58,27 @@ public class Alert {
 		// Sets the layout of the alert box.
 		VBox layout = new VBox(10);
 		layout.setPadding(new Insets(10));
-		layout.getChildren().addAll(label, iv1, button);
+		layout.getChildren().addAll(infoLabel, button);
 		layout.setAlignment(Pos.CENTER);
+
+		if (image == true) {
+
+			// Chooses a random cat picture as the prize and displays it.
+			String[] catList = { "Cats/grumpymath.jpg", "Cats/cat1.jpg", "Cats/monocat.jpg", "Cats/rollcat.jpg" };
+
+			int index = (int) (Math.random() * catList.length);
+			System.out.println(index);
+
+			Image cat = new Image(catList[index]);
+			ImageView iv1 = new ImageView();
+			iv1.setImage(cat);
+			layout.getChildren().add(iv1);
+
+		}
 
 		// Starts the alert scene
 		Scene scene = new Scene(layout);
+		scene.getStylesheets().add("file:///Users/heidikoppel/Documents/GitHub/Project/projekt/Form.css");
 		window.setScene(scene);
 		window.showAndWait();
 	}
