@@ -12,7 +12,6 @@ import com.opencsv.CSVReader;
  * @author Heidi Koppel
  *
  */
-
 public class Loader {
 	/**
 	 * Used the example code from http://opencsv.sourceforge.net/
@@ -23,7 +22,7 @@ public class Loader {
 	 *            The name of the file where we want to get information from
 	 * @throws Exception
 	 *             File not chosen exception
-	 *             
+	 * 
 	 */
 	public static void readFromCsv(QandA choice, String file) throws Exception {
 
@@ -38,5 +37,4 @@ public class Loader {
 		}
 		reader.close();
 	}
-
 }

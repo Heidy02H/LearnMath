@@ -20,7 +20,6 @@ import javafx.stage.Stage;
  * @author heidikoppel
  *
  */
-
 public class Alert {
 	/**
 	 * Method for creating and displaying the alert.
@@ -32,7 +31,6 @@ public class Alert {
 	 * @param boolean
 	 *            If true then a random funny image is loaded into the alert box
 	 */
-
 	public static void display(String title, String message, boolean image) {
 
 		Stage window = new Stage();
@@ -61,7 +59,6 @@ public class Alert {
 		layout.getChildren().addAll(infoLabel, button);
 		layout.setAlignment(Pos.CENTER);
 
-		
 		// Chooses a random cat picture as the prize and displays it.
 		if (image == true) {
 			String[] catList = { "Cats/grumpymath.jpg", "Cats/cat1.jpg", "Cats/monocat.jpg", "Cats/rollcat.jpg" };
@@ -81,5 +78,4 @@ public class Alert {
 		window.setScene(scene);
 		window.showAndWait();
 	}
-
 }

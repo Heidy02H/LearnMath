@@ -17,7 +17,6 @@ import javafx.stage.Stage;
  * @author Heidi Koppel
  *
  */
-
 public class GameOverAlert {
 	/**
 	 * This method creates the alert and displays it to the user
@@ -62,7 +61,5 @@ public class GameOverAlert {
 		scene.getStylesheets().add("file:///Users/heidikoppel/Documents/GitHub/Project/projekt/Form.css");
 		window.setScene(scene);
 		window.showAndWait();
-
 	}
-
 }

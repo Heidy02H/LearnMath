@@ -8,7 +8,6 @@ package projekt;
  * @author Heidi Koppel
  *
  */
-
 public class Actions {
 
 	/**
@@ -36,7 +35,6 @@ public class Actions {
 		} catch (Exception e) {
 			Alert.display("Viga!", "Palun vali vähemalt üks valemite pakett", false);
 		}
-
 	}
 
 	/**
@@ -44,7 +42,6 @@ public class Actions {
 	 * Next it will create a new scene with the previous info. Finally it starts
 	 * the new scene
 	 */
-
 	public static void clickValidateButton() {
 		String userAnswer = Main.answer.getText();
 		Main.status = Main.validateAnswer(userAnswer, Main.choice.theAnswer);
@@ -57,7 +54,6 @@ public class Actions {
 	 * When this action is triggered the program chooses a new question to ask.
 	 * Then creates the a new scene with that question. Finally starts the scene
 	 */
-
 	public static void clickContinueButton() {
 
 		Main.chooseQandA(Main.choice);

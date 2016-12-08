@@ -59,7 +59,6 @@ public class QandA {
 	 * 
 	 * @return index
 	 */
-
 	public int randomIndex() {
 		int sum = 0;
 		for (int i : odds) {
@@ -75,5 +74,4 @@ public class QandA {
 		}
 		return index;
 	}
-
 }

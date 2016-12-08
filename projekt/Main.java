@@ -74,11 +74,10 @@ public class Main extends Application {
 	 * @param primaryStage
 	 *            The stage
 	 * @throws Exception
-	 *             
+	 * 
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		
 		createNewScene1(primaryStage);
 	}
 
@@ -88,7 +87,6 @@ public class Main extends Application {
 	 * @param primaryStage
 	 */
 	public static void createNewScene1(Stage primaryStage) {
-		
 		window = primaryStage;
 
 		// Title for scene 1
@@ -115,8 +113,6 @@ public class Main extends Application {
 		// Starts the first scene
 		primaryStage.setScene(scene1);
 		primaryStage.show();
-
-		
 	}
 
 	/**
@@ -133,7 +129,7 @@ public class Main extends Application {
 
 		// Creates the text field for the user's answer
 		answer = new TextField();
-		answer.setMaxSize(200,150);
+		answer.setMaxSize(200, 150);
 
 		// Creates button for submitting and validating the answer
 		button2 = new Button();
@@ -249,7 +245,6 @@ public class Main extends Application {
 			streak = 0;
 			choice.odds.set(choice.theIndex, choice.odds.get(choice.theIndex) + 1);
 		}
-
 	}
 
 	/**
@@ -299,15 +294,16 @@ public class Main extends Application {
 
 	/**
 	 * Validates the users answer by first putting the answer in lower case and
-	 *removing all whitespace
-	 *and then comparing to the correct answer.
-	 * @param answer The users answer.
-	 * @param value The correct answer.
+	 * removing all whitespace and then comparing to the correct answer.
+	 * 
+	 * @param answer
+	 *            The users answer.
+	 * @param value
+	 *            The correct answer.
 	 * @return boolean true or false.
 	 */
 	public static boolean validateAnswer(String answer, String value) {
 		String trimAnswer = answer.replaceAll("\\s+", "").toLowerCase();
 		return trimAnswer.equals(value);
-
 	}
 }
