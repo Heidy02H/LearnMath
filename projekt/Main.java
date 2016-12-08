@@ -55,8 +55,8 @@ public class Main extends Application {
 	// Creates CheckBoxes
 	static CheckBox box1 = new CheckBox("Tuletised");
 	static CheckBox box2 = new CheckBox("Trigonomeetria põhivalemid");
-	static CheckBox box3 = new CheckBox("Põhiintegraalid");
-	static CheckBox box4 = new CheckBox("Testiks");
+	static CheckBox box3 = new CheckBox("3-ga korrutamine");
+	static CheckBox box4 = new CheckBox("Test");
 
 	/**
 	 * Starts the program
@@ -69,15 +69,26 @@ public class Main extends Application {
 	}
 
 	/**
-	 * Creates the stage and the first scene
+	 * Starts Java by calling first scene
 	 * 
 	 * @param primaryStage
 	 *            The stage
 	 * @throws Exception
-	 *             if the user doesn't choose formulas to learn
+	 *             
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		
+		createNewScene1(primaryStage);
+	}
+
+	/**
+	 * Creates the first scene
+	 * 
+	 * @param primaryStage
+	 */
+	public static void createNewScene1(Stage primaryStage) {
+		
 		window = primaryStage;
 
 		// Title for scene 1
@@ -98,13 +109,14 @@ public class Main extends Application {
 		layout1.getChildren().addAll(instruction, box1, box2, box3, box4, button1);
 
 		// Creates first scene
-		scene1 = new Scene(layout1, 450, 200);
+		scene1 = new Scene(layout1, 450, 350);
 		scene1.getStylesheets().add("file:///Users/heidikoppel/Documents/GitHub/Project/projekt/Form.css");
 
 		// Starts the first scene
 		primaryStage.setScene(scene1);
 		primaryStage.show();
 
+		
 	}
 
 	/**
@@ -112,7 +124,7 @@ public class Main extends Application {
 	 * to create the new scene in a method:
 	 * http://stackoverflow.com/questions/32940574/how-do-i-transfer-data-from-one-scene-to-another-in-javafx
 	 */
-	public static void createNewScene() {
+	public static void createNewScene2() {
 
 		// Creates the label that displays the question
 		Label question = new Label();
@@ -121,6 +133,7 @@ public class Main extends Application {
 
 		// Creates the text field for the user's answer
 		answer = new TextField();
+		answer.setMaxSize(200,150);
 
 		// Creates button for submitting and validating the answer
 		button2 = new Button();
@@ -139,7 +152,7 @@ public class Main extends Application {
 		layout2.getChildren().addAll(question, answer, button2, button3);
 
 		// Creates second scene
-		scene2 = new Scene(layout2, 450, 200);
+		scene2 = new Scene(layout2, 450, 350);
 		scene2.getStylesheets().add("file:///Users/heidikoppel/Documents/GitHub/Project/projekt/Form.css");
 	}
 
@@ -149,7 +162,7 @@ public class Main extends Application {
 	 * @param status
 	 *            Status of the users answer. Either true or false
 	 */
-	public static void createNewScene2(boolean status) {
+	public static void createNewScene3(boolean status) {
 
 		// Creates the label that displays the question and correct answer.
 		Label question = new Label();
@@ -157,8 +170,8 @@ public class Main extends Application {
 		question.setText(choice.theQuestion + " " + choice.theAnswer);
 
 		// Creates the label that displays the result
-		Label evaluation = new Label();
-		evaluation.getStyleClass().add("label-evaluation");
+		Label result = new Label();
+		result.getStyleClass().add("label-evaluation");
 
 		// Creates the text which displays if the answer was correct
 		Text counter = new Text();
@@ -173,22 +186,17 @@ public class Main extends Application {
 		layout3.setAlignment(Pos.CENTER);
 
 		// Updates all the values according to the user's answer
-		update(status, evaluation, removeQ, layout3, counter);
+		update(status, result, removeQ, layout3, counter);
 
 		// Creates button for continuing the game.
 		button4 = new Button();
 		button4.setText("Jätka");
 		button4.setOnAction(e -> Actions.clickContinueButton());
 
-		// Creates button for Exiting the game.
-		button3 = new Button();
-		button3.setText("Lõpeta");
-		button3.setOnAction(e -> Actions.clickCloseButton());
-
 		// Adding remaining elements to layout
-		layout3.getChildren().addAll(question, evaluation, counter, button4, button3);
+		layout3.getChildren().addAll(question, result, counter, button4, button3);
 
-		scene3 = new Scene(layout3, 450, 200);
+		scene3 = new Scene(layout3, 450, 350);
 		scene3.getStylesheets().add("file:///Users/heidikoppel/Documents/GitHub/Project/projekt/Form.css");
 	}
 
@@ -223,7 +231,7 @@ public class Main extends Application {
 				layout3.getChildren().add(removeQ);
 			}
 
-			if (streak % 10 == 0) {
+			if (streak % 5 == 0) {
 				Alert.display("Auhind!", "Tubli! Sa oled vastanud 10 korda järjest õigesti.", true);
 			}
 

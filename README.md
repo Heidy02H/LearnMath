@@ -1,1 +1,3 @@
-# Project1
+# Program for learning math formulas.
+
+Author: Heidi Koppel

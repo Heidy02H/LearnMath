@@ -61,9 +61,9 @@ public class Alert {
 		layout.getChildren().addAll(infoLabel, button);
 		layout.setAlignment(Pos.CENTER);
 
+		
+		// Chooses a random cat picture as the prize and displays it.
 		if (image == true) {
-
-			// Chooses a random cat picture as the prize and displays it.
 			String[] catList = { "Cats/grumpymath.jpg", "Cats/cat1.jpg", "Cats/monocat.jpg", "Cats/rollcat.jpg" };
 
 			int index = (int) (Math.random() * catList.length);
@@ -73,7 +73,6 @@ public class Alert {
 			ImageView iv1 = new ImageView();
 			iv1.setImage(cat);
 			layout.getChildren().add(iv1);
-
 		}
 
 		// Starts the alert scene
